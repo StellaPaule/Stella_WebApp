@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/StellaPaule/Stella_WebApp.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'mvn test' // Run your unit tests (if applicable)
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo "Deploying application..."
+                // Add deployment steps if needed (e.g., copying files, starting services, etc.)
+            }
+        }
+    }
+}
