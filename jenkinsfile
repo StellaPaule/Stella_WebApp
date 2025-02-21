@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                bat 'mvn test' // Run your unit tests (if applicable)
+                bat 'mvn test' // Run your unit tests 
             }
         }
         stage('Deploy') {
