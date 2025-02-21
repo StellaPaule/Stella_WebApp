@@ -1,40 +1,25 @@
 pipeline {
     agent any
-
     stages {
         stage('Checkout') {
             steps {
                 git 'https://github.com/StellaPaule/Stella_WebApp.git'
             }
         }
-
         stage('Build') {
             steps {
-                bat 'mvn clean package'
+                sh 'mvn clean package'
             }
         }
-
         stage('Test') {
             steps {
-                bat 'mvn test' // Run your unit tests (if applicable)
+                sh 'mvn test' // Run your unit tests (if applicable)
             }
         }
-
         stage('Deploy') {
             steps {
                 echo "Deploying application..."
-                bat 'copy target\\Stella_WebApp.war C:\\path\\to\\tomcat\\webapps\\'
-                bat 'C:\\path\\to\\tomcat\\bin\\startup.bat'
-                sleep(10) // Wait for deployment
-            }
-        }
-
-        stage('Verify Deployment') {
-            steps {
-                script {
-                    def response = bat(script: 'curl -s http://localhost:8080/Stella_WebApp', returnStdout: true).trim()
-                    echo "🌍 Website Response: ${response}"
-                }
+                // Add deployment steps if needed (e.g., copying files, starting services, etc.)
             }
         }
     }
