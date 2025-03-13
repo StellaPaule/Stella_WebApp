@@ -1,25 +1,41 @@
 pipeline {
     agent any
+
+    environment {
+        DOCKER_CREDENTIALS_ID = 'docker-hub-credentials'
+        IMAGE_NAME = 'your-dockerhub-username/java-webapp'
+    }
+
     stages {
-        stage('Checkout') {
+        stage('Checkout Code') {
             steps {
-                git 'https://github.com/StellaPaule/Stella_WebApp.git'
+                git 'https://github.com/your-username/your-repo.git'
             }
         }
-        stage('Build') {
+
+        stage('Build Maven Project') {
             steps {
-                bat 'mvn clean package'
+                sh 'mvn clean package'
             }
         }
-        stage('Test') {
+
+        stage('Docker Login') {
             steps {
-                bat 'mvn test' // Run your unit tests (if applicable)
+                withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS_ID, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin'
+                }
             }
         }
-        stage('Deploy') {
+
+        stage('Docker Build') {
             steps {
-                echo "Deploying application..."
-                // Add deployment steps if needed (e.g., copying files, starting services, etc.)
+                sh 'docker build -t $IMAGE_NAME .'
+            }
+        }
+
+        stage('Docker Push') {
+            steps {
+                sh 'docker push $IMAGE_NAME'
             }
         }
     }
