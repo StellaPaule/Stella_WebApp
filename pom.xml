@@ -71,5 +71,6 @@
         </plugin>
       </plugins>
     </pluginManagement>
+  <finalName>java-webapp</finalName>
   </build>
 </project>
