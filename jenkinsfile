@@ -8,12 +8,12 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                bat 'mvn clean package'
             }
         }
         stage('Test') {
             steps {
-                sh 'mvn test' // Run your unit tests (if applicable)
+                bat 'mvn test' // Run your unit tests (if applicable)
             }
         }
         stage('Deploy') {
