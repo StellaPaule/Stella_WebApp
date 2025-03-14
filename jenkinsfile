@@ -6,7 +6,7 @@ pipeline {
     }
 
     stages {
-        stage("Checkout Code") {
+        stage("Check out") {
             steps {
                 git branch: 'main', url: 'https://github.com/StellaPaule/Stella_WebApp'
             }
@@ -23,7 +23,7 @@ pipeline {
         stage("Build Docker image") {
             steps {
                 script {
-                    bat "docker build -t stellakwate/mytrying ."  
+                    bat "docker build -t stellakwate/mywebapp ."  
                 }
             }
         }
@@ -34,7 +34,7 @@ pipeline {
                     withCredentials([string(credentialsId: 'CredentialID_DockerHubPWD', variable: 'DOCKERHUB_PWD')]) {
                         bat "echo %DOCKERHUB_PWD% | docker login --username stellakwate --password-stdin"
                     }
-                    bat "docker push stellakwate/mytrying"
+                    bat "docker push stellakwate/mywebapp"
                 }
             }
         }
