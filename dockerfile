@@ -1,4 +1,2 @@
-FROM openjdk:21
-ADD target/java-webapp.jar java-webapp.jar
-ENTRYPOINT ["java", "-jar", "java-webapp.jar"]
-
+FROM tomcat:10.1
+COPY target/MyWebApp.war /usr/local/tomcat/webapps/MyWebApp.war
